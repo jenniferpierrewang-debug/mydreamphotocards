@@ -2,14 +2,15 @@
   "version": 2,
   "builds": [
     {
-      "src": "manage.py",
-      "use": "@vercel/python"
+      "src": "dreamPC2/wsgi.py",
+      "use": "@vercel/python",
+      "config": { "maxLambdaSize": "50mb" }
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "manage.py"
+      "dest": "dreamPC2/wsgi.py"
     }
   ]
 }
