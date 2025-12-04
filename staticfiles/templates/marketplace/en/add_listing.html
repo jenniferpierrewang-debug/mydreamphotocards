@@ -1,0 +1,27 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'marketplace/styles.css' %}">
+
+<div class="add-listing-container">
+  <h2>Add your favorite photocard</h2>
+  <p class="header-subtitle">Fill in and send your favorite photocard !</p>
+
+ <form method="POST" enctype="multipart/form-data" class="add-listing-form">
+    {% csrf_token %}
+    {{ form.as_p }}  <!-- tous les champs existants -->
+
+    <div class="consent-container">
+        {{ form.consent_given }} 
+        <label for="{{ form.consent_given.id_for_label }}">
+            I certify that I am the owner or have the necessary rights to publish this image.
+             <input type="checkbox" name="consent_given" required>
+        </label>
+    </div>
+
+    <button type="submit" class="submit-btn">Ajouter</button>
+</form>
+
+
+  {% if form.instance.pk and not form.instance.is_approved %}
+  <p class="pending-message">Ta photocard est bien enregistrée et attend validation par l’admin !</p>
+{% endif %}
+</div>

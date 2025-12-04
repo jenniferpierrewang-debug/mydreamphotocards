@@ -1,0 +1,30 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'marketplace/styles.css' %}">
+
+<div class="add-listing-container">
+  <h2>Add your favorite photocard</h2>
+  <p class="header-subtitle">Fill in and send your favorite photocard !</p>
+
+ <form method="POST" enctype="multipart/form-data" class="add-listing-form">
+    {% csrf_token %}
+
+    {{ form.non_field_errors }}
+
+    <!-- Tous les champs du formulaire existants (titre, membre, image...) -->
+    {{ form.as_p }}
+
+    <button type="submit" class="submit-btn" style="margin-top: 15px;">Add</button>
+  </form>
+</div>
+
+<style>
+.success-message {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #f3e5f5; /* violet doux */
+    color: #4b2e83;
+    border-radius: 8px;
+    font-weight: bold;
+
+}
+</style>

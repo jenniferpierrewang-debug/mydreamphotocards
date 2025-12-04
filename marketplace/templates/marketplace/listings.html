@@ -1,0 +1,546 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'marketplace/styles.css' %}">
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mes photocards</title>
+
+    <style>
+    body {
+        background: linear-gradient(135deg, #fbc2eb, #a6c1ee); /* to change if needed by  a pic */
+
+        background-size: cover;
+        margin: 0;
+        padding: 20px;
+    }
+    </style>
+</head>
+<body>
+    <!-- le reste de ton HTML ici -->
+{% if messages %}
+  <ul class="messages" style="list-style:none; padding:0; margin-bottom:10px;">
+    {% for message in messages %}
+      <li style="padding:10px; background-color:#ffffff; color:#152757; border-radius:5px; margin-bottom:5px;">
+        {{ message }}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+<h2>My Dream Photocards</h2>
+<p class="header-subtitle">
+  Toutes vos photocards devant vos yeux !
+</p>
+
+<!-- Bouton de langue -->
+<div style="position: absolute; top: 10px; left: 20px;">
+    <a href="{% url 'index_en' %}" class="lang-switch">🇬🇧 English</a>
+</div>
+
+<style>
+.lang-switch {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 26px;
+    transition: all 0.3s ease;
+    display: inline-block;
+    color: #4b2e83; /* violet doux */
+}
+
+.lang-switch:hover {
+    transform: scale(1.2);
+    text-shadow: 0 0 8px rgba(155, 100, 255, 0.6);
+}
+</style>
+
+<!-- Bouton ajouter une photocard -->
+<a href="{% url 'add_listing_fr' %}" class="add-listing-link">Ajouter une photocard</a>
+
+<!-- Barre de recherche -->
+<div class="search-tabs-container">
+  <form method="GET" action="" class="search-form">
+    <input type="text" name="q" placeholder="Rechercher..." value="{{ request.GET.q|default:'' }}">
+    <button type="submit">🔍</button>
+  </form>
+</div>
+
+
+
+<!-- Onglets Listing / Selling -->
+<div class="tabs">
+  <button class="tab-link active" onclick="openTab(event, 'listing')">Listing</button>
+  <button class="tab-link" onclick="openTab(event, 'selling')">Selling</button>
+</div>
+
+
+
+<div class="page-container">
+  <!-- Colonne gauche : liste des groupes -->
+  <div class="groups-column">
+    <ul class="group-list">
+      <li><a href="#" class="group-filter active" data-group="all">Tous</a></li>
+      {% for group_name in groups %}
+        <li>
+          <a href="#" class="group-filter" data-group="{{ group_name }}">{{ group_name }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- Colonne droite : photocards filtrées -->
+  <div class="listings-column">
+    {% if listings %}
+      {% for listing in listings %}
+        <div class="listing-card">
+          {% if listing.image %}
+            <img src="{{ listing.image.url }}" alt="{{ listing.titre }}">
+          {% endif %}
+          <div class="listing-info">
+            <h3>{{ listing.titre }}</h3>
+            {% if listing.membre %}
+              <p>{{ listing.membre }}</p>
+            {% endif %}
+            {% if listing.groupe %}
+               <p class="listing-groupe">{{ listing.groupe }}</p>
+             {% endif %}
+           </div>
+          <button class="favorite-btn">♥</button>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p class="empty-message">No photocards for this group yet.</p>
+    {% endif %}
+  </div>
+</div>
+
+
+<script>
+  const filters = document.querySelectorAll('.group-filter');
+  const cards = document.querySelectorAll('.listing-card');
+
+  filters.forEach(filter => {
+    filter.addEventListener('click', e => {
+      e.preventDefault();
+
+      // retire la classe active de tous
+      filters.forEach(f => f.classList.remove('active'));
+      // ajoute la classe active à celui cliqué
+      filter.classList.add('active');
+
+      const group = filter.dataset.group;
+
+      cards.forEach(card => {
+        if (group === 'all' || card.dataset.group === group) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+.group-list li {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.group-list a {
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background-color: #eee;
+  color: #333;
+}
+
+.group-list a.active {
+  background-color: #14447b;
+  color: #fff;
+}
+</style>
+
+
+<!-- Contenu Selling -->
+<div id="selling" class="tab-content" style="display:none;">
+  <div class="cards-container">
+    {% for sale in sellings %}
+      <div class="card">
+        <div class="card-image">
+          {% if sale.listing.image %}
+            <img src="{{ sale.listing.image.url }}" alt="{{ sale.listing.title }}">
+          {% endif %}
+          <button class="like-btn">♥</button>
+        </div>
+        <div class="card-info">
+          <div class="card-title">{{ sale.listing.title }}</div>
+          <div class="card-sub">{{ sale.listing.group }}{% if sale.listing.member %} - {{ sale.listing.member }}{% endif %}</div>
+          <div class="seller">Vendu par: {{ sale.seller.username }}</div>
+          <div class="price">Prix: €{{ sale.price }}</div>
+          {% if user.is_authenticated %}
+            <button class="contact-btn">Contact the seller</button>
+          {% else %}
+            <div class="not-logged-in">Tu dois avoir un compte pour contacter ce vendeur.</div>
+          {% endif %}
+        </div>
+      </div>
+    {% empty %}
+      <p>Coming soon, stay tuned !</p>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Section retours des fans -->
+<div id="fans-feedback-container" style="position: fixed; top: 20px; right: 0; width: 300px; background: #E6E0F8; border-radius: 10px 0 0 10px; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2); z-index: 1000; transition: transform 0.3s;">
+  <div class="fans-feedback-scroll" id="feedback-content" style="max-height:150px; overflow-y:auto;">
+    <h2 style="font-size:16px; margin:0 0 5px 0;">💬 Les retours des fans</h2>
+    {% if feedbacks %}
+      {% for fb in feedbacks %}
+        <div class="feedback-card" style="background: rgba(255,255,255,0.8); padding:10px; margin:5px 0; border-radius:8px;">
+          <p style="margin:0;">
+            <strong>{{ fb.name|default:"Anonyme" }}</strong> 
+            <span style="font-size:10px; color:#555;">- {{ fb.created_at|date:"d M Y" }}</span>
+          </p>
+          <p style="margin-top:3px;">{{ fb.message }}</p>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p style="color:#666; margin:5px 0;">Aucun message pour le moment. Soyez le premier à laisser un mot 💕</p>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Flèche pour réouvrir -->
+<div id="feedback-toggle" style="position: fixed; top: 20px; right: 0; width: 30px; height: 50px; background: #E6E0F8; border-radius: 5px 0 0 5px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 5px rgba(0,0,0,0.2); cursor: pointer; z-index: 1001; font-size: 18px;">
+  ➤
+</div>
+
+<script>
+const toggle = document.getElementById('feedback-toggle');
+const container = document.getElementById('fans-feedback-container');
+let hidden = false;
+
+toggle.addEventListener('click', () => {
+  if (!hidden) {
+    container.style.transform = 'translateX(300px)'; // disparaît complètement
+    hidden = true;
+  } else {
+    container.style.transform = 'translateX(0)';
+    hidden = false;
+  }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Onglets
+  function openTab(evt, tabName) {
+    var tabcontent = document.getElementsByClassName("tab-content");
+    for (var i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    var tablinks = document.getElementsByClassName("tab-link");
+    for (var i = 0; i < tablinks.length; i++) {
+      tablinks[i].classList.remove("active");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.classList.add("active");
+  }
+  window.openTab = openTab; // expose la fonction pour onclick dans HTML
+
+  // Zoom permanent sur clic
+  document.querySelectorAll('.listing-card').forEach(card => {
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.listing-card').forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+    });
+  });
+
+  // Overlay pour agrandir la photocard
+  const overlay = document.getElementById('cardOverlay');
+  const overlayImage = document.getElementById('overlayImage');
+
+  document.querySelectorAll('.listing-card img').forEach(img => {
+    img.addEventListener('click', (e) => {
+      e.stopPropagation(); // empêche le clic sur la carte de déclencher le zoom permanent
+      overlayImage.src = img.src;
+      overlay.style.display = 'flex';
+    });
+  });
+
+  overlay.addEventListener('click', () => {
+    overlay.style.display = 'none';
+  });
+});
+</script>
+
+<!-- ...tout ton contenu de page... -->
+
+<script>
+  // ton script actuel pour l'overlay et les tabs
+</script>
+
+<!-- Overlay pour agrandir la photocard -->
+<div id="cardOverlay" style="
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    cursor: pointer;
+">
+  <img id="overlayImage" src="" alt="Agrandissement photocard" style="
+      max-width: 80%;
+      max-height: 80%;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+  ">
+</div>
+</body>
+</html>
+<form method="POST" action="{% url 'send_feedback' %}">
+    {% csrf_token %}
+    ...
+</form>
+<div class="feedback-section">
+  <h2>✨Envoyez-moi vos retours ✨</h2>
+  <form method="POST" action="{% url 'send_feedback' %}">
+    {% csrf_token %}
+    <label for="name">Votre pseudo :</label><br>
+    <input type="text" id="name" name="name" placeholder="Votre pseudo" required><br><br>
+
+    <label for="type">Type de retour :</label><br>
+    <select id="type" name="type">
+      <option value="amelioration">Idée d'amélioration</option>
+      <option value="commentaire">Commentaire général</option>
+      <option value="contactez admin">Contacter Admin</option>
+      <option value="autre">Autre</option>
+    </select><br><br>
+
+    <label for="message">Votre message :</label><br>
+    <textarea id="message" name="message" rows="4" placeholder="Écrivez ici..." required></textarea><br><br>
+    <label>
+      
+ J’accepte que mon message puisse être affiché publiquement après approbation.
+ <input type="checkbox" name="consent" required>
+
+    </label><br><br>
+    <button type="submit">Envoyer</button>
+  </form> 
+
+  
+  <!-- Texte d’exemple / suggestion -->
+<p class="feedback-example" style="margin-top:10px; font-size:13px; color:#555;">
+  Exemple : « Pouvez-vous rajouter ce groupe ? » ou « Auriez-vous d’autres photocards de BOYNEXTDOOR ? »<br>
+  Merci de laisser un moyen de contact et d’envoyer un seul message à la fois, pour que l'admin puisse répondre à chacun sans spam 😊<br>
+  Merci de ne pas envoyer de messages inutiles ou répétitifs !
+</p>
+
+<!-- Texte sur protection et anti-spam -->
+<p class="feedback-info" style="margin-top:10px; font-size:12px; color:#888;">
+  Vos informations (nom, e-mail, message) sont utilisées uniquement pour que l’admin puisse lire votre retour et, si nécessaire, vous recontacter.  
+  Merci de ne pas envoyer de spams ou messages répétitifs ; tout message abusif pourra être supprimé.
+</p>
+</div>
+
+<!-- FAUSSE PHOTOCARD D'ANNONCE AVEC FLÈCHE -->
+<div id="ad-container" class="ad-photocard">
+  <div class="ribbon">Annonce 🎀</div>
+  <img id="ad-img" src="/marketplace/static/marketplace/jaebaby.jpeg" alt="BOYNEXTDOOR merch">
+  <div class="ad-info">
+    <p id="ad-text">Découvre les nouveautés <strong>BOYNEXTDOOR</strong> sur Ktown4u 💿</p>
+    <a id="ad-link" href="https://www.ktown4u.com/affiliate_link_boynextdoor" target="_blank" class="ad-btn">Shop Now</a>
+  </div>
+</div>
+
+<!-- Flèche rétractable fixe -->
+<div id="ad-toggle">❮</div>
+
+<script>
+const ads = [
+  {
+    img: "/marketplace/static/marketplace/images/IMG_9550.jpg",
+    text: "Découvre les nouveautés <strong>BOYNEXTDOOR</strong> sur Ktown4u 💿",
+    link: "https://www.ktown4u.com/affiliate_link_boynextdoor"
+  },
+  {
+    img: "/marketplace/static/marketplace/images/NCT.jpeg",
+    text: "Découvre les nouveautés <strong>NCT</strong> sur Soundwave 🎶",
+    link: "https://en.sound-wave.co.kr"
+  },
+  {
+    img: "/marketplace/static/marketplace/images/aespa.jpeg",
+    text: "Découvre les nouveautés <strong>AESPA</strong> sur Musica 🖤",
+    link: "https://www.asiaworldmusic.fr/?srsltid=AfmBOop3pvQwPSwUIaGaT-73nqrRRNg95pHkhFHq4Il1C2JrEOW_NgjD"
+  }
+];
+
+let currentAd = 0;
+
+function showAd(index) {
+  const ad = ads[index];
+  document.getElementById("ad-img").src = ad.img;
+  document.getElementById("ad-text").innerHTML = ad.text;
+  document.getElementById("ad-link").href = ad.link;
+}
+
+// Auto change toutes les 15s
+setInterval(() => {
+  currentAd = (currentAd + 1) % ads.length;
+  showAd(currentAd);
+}, 15000);
+
+// Rétractation avec flèche
+const adContainer = document.getElementById('ad-container');
+const adToggle = document.getElementById('ad-toggle');
+let adHidden = false;
+
+adToggle.addEventListener('click', () => {
+  if (!adHidden) {
+    adContainer.style.transform = 'translateX(220px)';
+    adToggle.innerText = '❯';
+  } else {
+    adContainer.style.transform = 'translateX(0)';
+    adToggle.innerText = '❮';
+  }
+  adHidden = !adHidden;
+});
+
+// Initial display
+showAd(currentAd);
+</script>
+
+<style>
+/* Encadré flottant */
+.ad-photocard {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 220px;
+  background-color: #fff;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  z-index: 1000;
+  font-family: Arial, sans-serif;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Ruban */
+.ad-photocard .ribbon {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  background: #FF69B4;
+  color: #fff;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+/* Image */
+.ad-photocard img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+/* Texte et bouton */
+.ad-photocard .ad-info p {
+  font-size: 13px;
+  font-weight: 500;
+  margin: 4px 0;
+  color: #333;
+}
+
+.ad-photocard .ad-info .ad-btn {
+  display: inline-block;
+  padding: 6px 10px;
+  background-color: #14447b;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 6px;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ad-photocard .ad-info .ad-btn:hover {
+  background-color: #0f3560;
+  transition: 0.2s;
+}
+
+/* Flèche rétractable */
+#ad-toggle {
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  width: 25px;
+  height: 25px;
+  background-color: #14447b;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 25px;
+  cursor: pointer;
+  z-index: 2000;
+  user-select: none;
+}
+</style>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-content">
+    
+    <a href="{% url 'listings' %}">Accueil</a> | 
+    <a href="{% url 'mentions_legales' %}">Mentions légales</a> | 
+    <a href="{% url 'privacy_policy' %}">Politique de confidentialité</a> | 
+    <a href="{% url 'moi' %}">About Me</a> | 
+    <a href="{% url 'contact' %}">Contact</a> |
+    <span>© {% now "Y" %} MyDreamPhotocards. Tous droits réservés.</span> | 
+  </div>
+</footer>
+
+<style>
+.site-footer {
+    background-color: #E6E0F8; /* violet doux */
+    padding: 15px 0;
+    text-align: center;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    margin-top: 40px; /* espace au-dessus du footer */
+}
+
+.site-footer .footer-content {
+    font-size: 14px;
+    color: #4B3F99; /* texte violet foncé */
+}
+
+.site-footer .footer-content span {
+    font-weight: 500;
+}
+
+.site-footer .footer-content a {
+    display: inline-block;
+    margin: 0 8px;
+    color: #4B3F99; /* texte violet foncé */
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.site-footer .footer-content a:hover {
+    color: #2E1A80; /* effet survol */
+}
+</style>

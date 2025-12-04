@@ -1,0 +1,100 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact - DreamPC2</title>
+    <link rel="stylesheet" href="{% static 'marketplace/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+            color: #152757;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #4b2e83;
+        }
+        .contact-section {
+            background: rgba(158, 165, 198, 0.9);
+            border-radius: 10px;
+            padding: 30px;
+            margin: 0 auto;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            max-width: 900px;
+        }
+        .contact-section h2 {
+            font-size: 18px;
+            margin-top: 30px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        a {
+            color: #4b2e83;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            background-color: #d9c8f5;
+            border-top: 1px solid #c5b0e0;
+            margin-top: 30px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+
+
+<div class="contact-section">
+    <h2>Contactez-nous</h2>
+    <p>
+        Email : <a href="mailto:tresors-asiatique@outlook.fr">tresors-asiatique@outlook.fr</a><br>
+        Instagram: <a href="https://www.instagram.com/tresors_asiatique" target="_blank">@tresors_asiatique</a>
+    </p>
+</div>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-content">
+    <a href="{% url 'listings' %}">Accueil</a> | 
+    <a href="{% url 'privacy_policy' %}">Politique de confidentialité</a> | 
+    <a href="{% url 'moi' %}">About Me</a> | 
+    <a href="{% url 'contact' %}">Contact</a>
+  </div>
+</footer>
+
+<style>
+.site-footer {
+    background-color: #E6E0F8; /* violet doux */
+    padding: 15px 0;
+    text-align: center;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    margin-top: 40px; /* espace au-dessus du footer */
+}
+
+.site-footer .footer-content a {
+    display: inline-block;
+    margin: 0 12px;
+    color: #4B3F99; /* texte violet foncé */
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.site-footer .footer-content a:hover {
+    color: #2E1A80; /* effet survol */
+}
+</style>
+
+</body>
+</html>
+

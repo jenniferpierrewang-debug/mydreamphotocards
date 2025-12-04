@@ -1,0 +1,121 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Politique de confidentialité - DreamPC2</title>
+    <link rel="stylesheet" href="{% static 'marketplace/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+            color: #152757;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #4b2e83;
+        }
+        .legal-section {
+            background: rgba(158, 165, 198, 0.9);
+            border-radius: 10px;
+            padding: 30px;
+            margin: 0 auto;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            max-width: 900px;
+        }
+        .legal-section h2 {
+            font-size: 18px; /* taille uniforme comme Mentions légales */
+            margin-top: 30px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        a {
+            color: #4b2e83;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            background-color: #d9c8f5;
+            border-top: 1px solid #c5b0e0;
+            margin-top: 30px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<h1 style="text-align: center;">Politique de confidentialité</h1>
+
+<div class="legal-section">
+    <h2>1. Données collectées</h2>
+    <p>Nous collectons uniquement les informations nécessaires : nom, e-mail, messages/feedbacks et adresse IP (pour preuve de consentement).</p>
+
+    <h2>2. Finalités de la collecte</h2>
+    <ul>
+        <li>Publier vos feedbacks si vous avez donné votre consentement.</li>
+        <li>Répondre à vos messages si nécessaire.</li>
+        <li>Conserver une preuve de consentement pour les messages envoyés.</li>
+    </ul>
+
+    <h2>3. Partage et divulgation</h2>
+    <p>Nous ne vendons ni ne partageons vos données avec des tiers. Vos informations ne sont publiées que si vous avez donné votre consentement.</p>
+
+    <h2>4. Conservation des données</h2>
+    <p>Vos feedbacks sont conservés jusqu’à ce qu’ils soient supprimés par vous ou par l’administrateur. Les autres données sont conservées uniquement le temps nécessaire à leur traitement.</p>
+
+    <h2>5. Vos droits</h2>
+    <p>Vous pouvez :</p>
+    <ul>
+        <li>Accéder à vos données</li>
+        <li>Demander leur modification ou suppression</li>
+        <li>Retirer votre consentement pour l’affichage public</li>
+    </ul>
+    <p>Pour exercer vos droits, contactez-nous à : <a href="mailto:{{ contact_email }}">{{ contact_email }}</a></p>
+
+    <h2>6. Sécurité</h2>
+    <p>Nous mettons en œuvre des mesures techniques et organisationnelles pour protéger vos données. L’accès est restreint et le site utilise HTTPS.</p>
+</div>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-content">
+    <a href="{% url 'listings' %}">Accueil</a> | 
+    <a href="{% url 'mentions_legales' %}">Mentions légales</a> | 
+    <a href="{% url 'privacy_policy' %}">Politique de confidentialité</a> | 
+    <a href="{% url 'moi' %}">Qui suis-je?</a> | 
+    <a href="#">Contact</a>
+  </div>
+</footer>
+
+<style>
+.site-footer {
+    background-color: #E6E0F8;
+    padding: 15px 0;
+    text-align: center;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    margin-top: 40px;
+}
+
+.site-footer .footer-content a {
+    display: inline-block;
+    margin: 0 12px;
+    color: #4B3F99;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.site-footer .footer-content a:hover {
+    color: #2E1A80;
+}
+</style>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Moi - DreamPC2</title>
+    <link rel="stylesheet" href="{% static 'marketplace/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+            color: #152757;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #4b2e83;
+        }
+        .about-section {
+            background: rgba(158, 165, 198, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        a {
+            color: #4b2e83;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            background-color: #d9c8f5;
+            border-top: 1px solid #c5b0e0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="about-section">
+    <h2>Qui suis-je ?</h2>
+    <p>
+        Bonjour ! Je m’appelle Jennifer et j'ai toujours était attiré par la musique, la découverte de la K-pop
+        a changé ma vie sur le métier de chanteur, l'univers des idols à été une révélation impactante sur ma vie artistique
+        ma vision s'est élargit au fur du temps et je voulais moi aussi contribué de ma façon à ce monde qui plaît tant 
+        aux fans.
+        J'espère que vous allez faire fleurir ce site avec moi car sans vous je n'y arriverais pas donc sortez vos binders kpop lovers !
+    
+</div>
+
+<div class="about-section">
+    <h2>Mon site my dream photocards</h2>
+    <p>
+        My dream photocards est un espace pour partager vos photocards aux monde entier en quelques clics !
+        Vous pouvez ainsi voir toutes les photocards listés et découvrir des photocards que vous n'avez encore jamais vu.
+    </p>
+</div>
+
+
+<footer>
+    <a href="{% url 'listings' %}">Accueil</a> | 
+    <a href="{% url 'mentions_legales' %}">Mentions légales</a> | 
+    <a href="#">Politique de confidentialité</a> | 
+    <a href="#">Contact</a>
+</footer>
+
+</body>
+</html>
+
+

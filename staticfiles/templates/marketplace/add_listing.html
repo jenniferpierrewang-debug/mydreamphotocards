@@ -1,0 +1,41 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'marketplace/styles.css' %}">
+
+<div class="add-listing-container">
+  <h2>Ajoute ta photocard</h2>
+  <p class="header-subtitle">Remplis le formulaire et envoie ta photocard préférée !</p>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="success-message">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="POST" enctype="multipart/form-data" class="add-listing-form">
+    {% csrf_token %}
+
+    {{ form.non_field_errors }}
+
+    <!-- Tous les champs du formulaire existants (titre, membre, image...) -->
+    {{ form.as_p }}
+
+    <button type="submit" class="submit-btn" style="margin-top: 15px;">Ajouter</button>
+  </form>
+</div>
+
+<style>
+.success-message {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #f3e5f5; /* violet doux */
+    color: #4b2e83;
+    border-radius: 8px;
+    font-weight: bold;
+
+}
+</style>
+
+
+
+
+

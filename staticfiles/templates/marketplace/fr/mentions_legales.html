@@ -1,0 +1,128 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mentions légales - DreamPC2</title>
+    <link rel="stylesheet" href="{% static 'marketplace/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+            color: #152757;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #4b2e83;
+        }
+        .legal-section {
+            background: rgba(158, 165, 198, 0.9);
+            border-radius: 10px;
+            padding: 30px;
+            margin: 0 auto;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            max-width: 900px;
+        }
+        .legal-section h2 {
+            font-size: 18px;
+            margin-top: 30px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        a {
+            color: #4b2e83;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            background-color: #d9c8f5;
+            border-top: 1px solid #c5b0e0;
+            margin-top: 30px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<h1 style="text-align: center;">Mentions légales</h1>
+
+<div class="legal-section">
+    <h2>Éditrice du site</h2>
+    <p>
+        Jennifer PIERRE<br>
+        Adresse : 65 Boulevard de la Madeleine
+                  06000 Nice 
+                  France <br>
+        Email : <a href="mailto:tresors-asiatique@outlook.fr">tresors-asiatique@outlook.fr</a>
+    </p>
+
+    <h2>Creatrice du site</h2>
+    <p>Jennifer PIERRE</p>
+
+    <h2>Hébergeur du site</h2>
+    <p>
+       Vercel
+    </p>
+
+    <h2>Propriété intellectuelle</h2>
+    <p>
+        Tous les contenus de ce site (textes, images, logos) sont protégés. Toute reproduction ou utilisation
+        sans autorisation écrite est interdite.
+    </p>
+
+    <h2>Données personnelles</h2>
+    <p>
+        Les informations recueillies via les formulaires (nom, message) sont utilisées uniquement pour répondre
+        à vos retours. Conformément à la loi RGPD, vous pouvez demander la suppression de vos données à tout moment
+        en contactant <a href="mailto:tresors-asiatique@outlook.fr">tresors-asiatique@outlook.fr</a>.
+    </p>
+
+
+    <h2>Limitation de responsabilité</h2>
+    <p>
+        MyDreamPhotocards ne peut être tenu responsable des dommages directs ou indirects liés à l'utilisation de ce site.
+    </p>
+</div>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-content">
+    <a href="{% url 'listings' %}">Accueil</a> | 
+    <a href="{% url 'privacy_policy' %}">Politique de confidentialité</a> | 
+    <a href="{% url 'moi' %}">About Me</a> | 
+    <a href="#">Contact</a> | 
+  </div>
+</footer>
+
+<style>
+.site-footer {
+    background-color: #E6E0F8; /* violet doux */
+    padding: 15px 0;
+    text-align: center;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    margin-top: 40px; /* espace au-dessus du footer */
+}
+
+.site-footer .footer-content a {
+    display: inline-block;
+    margin: 0 12px;
+    color: #4B3F99; /* texte violet foncé */
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.site-footer .footer-content a:hover {
+    color: #2E1A80; /* effet survol */
+}
+</style>
+
+</body>
+</html>
