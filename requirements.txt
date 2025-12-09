@@ -4,3 +4,4 @@ pillow==11.3.0
 sqlparse==0.5.3
 gunicorn==21.2.0
 whitenoise==6.4.0
+cloudinary==1.32.0
