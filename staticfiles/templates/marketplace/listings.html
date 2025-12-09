@@ -32,7 +32,7 @@
 
 <h2>My Dream Photocards</h2>
 <p class="header-subtitle">
-  All your photocards sorted by group, member or price!
+  Toutes vos photocards devant vos yeux !
 </p>
 
 <!-- Bouton de langue -->
@@ -90,27 +90,32 @@
     </ul>
   </div>
 
-  <!-- Colonne droite : photocards -->
+  <!-- Colonne droite : photocards filtrées -->
   <div class="listings-column">
-    {% for listing in listings %}
-      <div class="listing-card" data-group="{{ listing.groupe }}">
-        {% if listing.image %}
-          <img src="{{ listing.image.url }}" alt="{{ listing.titre }}">
-        {% endif %}
-        <div class="listing-info">
-          <h3>{{ listing.titre }}</h3>
-          {% if listing.membre %}
-            <p>{{ listing.membre }}</p>
+    {% if listings %}
+      {% for listing in listings %}
+        <div class="listing-card">
+          {% if listing.image %}
+            <img src="{{ listing.image.url }}" alt="{{ listing.titre }}">
           {% endif %}
-          {% if listing.groupe %}
-            <p class="listing-groupe">{{ listing.groupe }}</p>
-          {% endif %}
+          <div class="listing-info">
+            <h3>{{ listing.titre }}</h3>
+            {% if listing.membre %}
+              <p>{{ listing.membre }}</p>
+            {% endif %}
+            {% if listing.groupe %}
+               <p class="listing-groupe">{{ listing.groupe }}</p>
+             {% endif %}
+           </div>
+          <button class="favorite-btn">♥</button>
         </div>
-        <button class="favorite-btn">♥</button>
-      </div>
-    {% endfor %}
+      {% endfor %}
+    {% else %}
+      <p class="empty-message">No photocards for this group yet.</p>
+    {% endif %}
   </div>
 </div>
+
 
 <script>
   const filters = document.querySelectorAll('.group-filter');
@@ -362,12 +367,12 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 const ads = [
   {
-    img: "/marketplace/static/marketplace/IMG_9550.jpg",
+    img: "/marketplace/static/marketplace/IMG_9550.JPG",
     text: "Découvre les nouveautés <strong>BOYNEXTDOOR</strong> sur Ktown4u 💿",
     link: "https://www.ktown4u.com/affiliate_link_boynextdoor"
   },
   {
-    img: "/marketplace/static/marketplace/NCT.jpeg",
+    img: "/marketplace/static/marketplace/images/NCT.jpeg",
     text: "Découvre les nouveautés <strong>NCT</strong> sur Soundwave 🎶",
     link: "https://en.sound-wave.co.kr"
   },
@@ -502,7 +507,7 @@ showAd(currentAd);
     <a href="{% url 'mentions_legales' %}">Mentions légales</a> | 
     <a href="{% url 'privacy_policy' %}">Politique de confidentialité</a> | 
     <a href="{% url 'moi' %}">About Me</a> | 
-    <a href="#">Contact</a> |
+    <a href="{% url 'contact' %}">Contact</a> |
     <span>© {% now "Y" %} MyDreamPhotocards. Tous droits réservés.</span> | 
   </div>
 </footer>

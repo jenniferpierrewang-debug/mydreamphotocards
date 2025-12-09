@@ -812,13 +812,3 @@ button:hover {
     height: 16px;
 }
 
-.submission-message {
-    background-color: #E6E0F8; /* violet doux */
-    color: #4B2E83;            /* texte violet foncé */
-    padding: 15px 20px;
-    border-radius: 10px;
-    margin-top: 20px;
-    text-align: center;
-    font-weight: 500;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-}
