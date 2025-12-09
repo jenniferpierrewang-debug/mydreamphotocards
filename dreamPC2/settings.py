@@ -22,6 +22,12 @@ cloudinary.config(
     api_secret=os.environ.get('CLOUDINARY_API_SECRET')
 )
 
+# Exemple d'URL par défaut pour les médias
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# Optionnel : définir un dossier par défaut sur Cloudinary
+CLOUDINARY_MEDIA_FOLDER = 'mydreamphotocards'
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
