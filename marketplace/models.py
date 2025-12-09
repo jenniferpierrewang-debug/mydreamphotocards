@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from cloudinary.models import CloudinaryField
 
 
 class Listing(models.Model):
@@ -9,7 +10,7 @@ class Listing(models.Model):
     description = models.TextField(blank=True, null=True)
     groupe = models.CharField(max_length=255, blank=True, null=True)
     membre = models.CharField(max_length=255, blank=True, null=True)
-    image = models.CloudinaryField(upload_to='photocards/')
+    image = CloudinaryField('image', folder='photocards')
     consent_given = models.BooleanField(default=False)
     is_approved = models.BooleanField(default=False)
 
@@ -43,7 +44,7 @@ class Feedback(models.Model):
         return f"{self.name or 'Anonyme'} - {self.message[:30]}"
     
 class Photocard(models.Model):
-    image = models.CloudinaryField(upload_to='photocards/')
+    image = models.ImageField(upload_to='photocards/')
     consent_given = models.BooleanField(default=False)
     consent_date = models.DateTimeField(auto_now_add=True)
     user_ip = models.GenericIPAddressField(null=True, blank=True)
