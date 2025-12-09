@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('', views.listing_list_fr, name='home'),
     path('fr/', views.listing_list_fr, name='listings'),  # page principale FR
     path('en/', views.listing_list_en, name='index_en'),      # page principale EN
     path('fr/add/', views.add_listing_fr, name='add_listing_fr'),  # formulaire FR

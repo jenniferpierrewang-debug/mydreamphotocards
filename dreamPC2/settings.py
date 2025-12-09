@@ -10,6 +10,24 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+# Configuration Cloudinary
+cloudinary.config(
+    cloud_name=os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    api_key=os.environ.get('CLOUDINARY_API_KEY'),
+    api_secret=os.environ.get('CLOUDINARY_API_SECRET')
+)
+
+# Exemple d'URL par défaut pour les médias
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# Optionnel : définir un dossier par défaut sur Cloudinary
+CLOUDINARY_MEDIA_FOLDER = 'mydreamphotocards'
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -26,10 +44,9 @@ SECRET_KEY = 'django-insecure-p9pzs((fy66+n+b^b8=wp%-chf9!f^u-wy#g47u1wxvpz#3n--
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'mydreamphotocards.vercel.app',
-    '.vercel.app',   # autorise tous les sous-domaines Vercel
+    'mydreamphotocards.onrender.com',  # ton URL Render
     'localhost',
-    '127.0.0.1'
+    '127.0.0.1',
 ]
 
 
@@ -54,7 +71,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # <--- ajouté
+    # ... le reste des middlewares
 ]
+
 
 ROOT_URLCONF = 'dreamPC2.urls'
 
@@ -132,6 +153,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # dossiers où collectstatic mettra les fichiers
+# Sert à ce que Whitenoise gère correctement les fichiers statiques en production
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files (uploads des utilisateurs)
 MEDIA_URL = '/media/'
