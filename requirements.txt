@@ -5,11 +5,12 @@ cloudi==2.0.7
 cloudinary==1.44.1
 Django==5.2.6
 erlang_py==2.0.7
+gunicorn==23.0.0
+packaging==25.0
 pillow==11.3.0
+psycopg2-binary==2.9.11
 python-dotenv==1.2.1
 six==1.17.0
 sqlparse==0.5.3
 urllib3==2.6.1
 whitenoise==6.11.0
-gunicorn
-
