@@ -14,11 +14,11 @@ from django.db.models import Q
 
 def listing_list_fr(request):
     query = request.GET.get('q', '')
-    selected_group = request.GET.get('groupe', 'all')
+    selected_group = request.GET.get('groupe', '')
 
     listings = Listing.objects.filter(is_approved=True)
 
-    # 🔎 Recherche
+    # Filtrer selon la recherche
     if query:
         listings = listings.filter(
             Q(titre__icontains=query) |
@@ -26,30 +26,29 @@ def listing_list_fr(request):
             Q(membre__icontains=query)
         )
 
-    # 🎯 Filtre par groupe
-    if selected_group.lower() != "all":
+    # Filtrer selon le groupe sélectionné (sauf "all")
+    if selected_group and selected_group.lower() != "all":
         listings = listings.filter(groupe__iexact=selected_group)
 
-    # 📌 Groupes affichés dans la colonne gauche
-    groups = sorted([
-        'BOYNEXTDOOR','SEVENTEEN','TXT','ENHYPEN','STRAY KIDS',
-        'XDH','AESPA','NCT','CORTIS','TWICE','MEOV','BLACKPINK','THE BOYZ'
-    ])
+    # Liste des groupes (fixe ou dynamique)
+    groups = sorted(['BOYNEXTDOOR','SEVENTEEN','TXT','ENHYPEN','STRAY KIDS','XDH','AESPA','NCT','CORTIS','TWICE','MEOV','BLACKPINK','THE BOYZ'])
+
+    grouped_listings = OrderedDict()
+    for group_name in groups:
+        grouped_listings[group_name] = listings.filter(groupe__iexact=group_name)
 
     sellings = Selling.objects.filter(is_active=True)
-    feedbacks = Feedback.objects.filter(
-        is_approved=True,
-        consent_given=True
-    ).order_by('-created_at')
+    feedbacks = Feedback.objects.filter(is_approved=True, consent_given=True).order_by('-created_at')
 
     return render(request, 'marketplace/listings.html', {
         'listings': listings,
         'selected_group': selected_group,
         'groups': groups,
         'sellings': sellings,
+        'grouped_listings': grouped_listings,
         'feedbacks': feedbacks,
     })
-
+    
 def listing_list_en(request):
     query = request.GET.get('q', '')
     selected_group = request.GET.get('groupe', '')
