@@ -435,6 +435,14 @@ button:hover {
   color: #14447b; /* violet doux pour le groupe */
   margin-top: 2px;
   text-transform: uppercase;
+
+}
+
+.listing-description {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 6px;
+  line-height: 1.4;
 }
 
 
