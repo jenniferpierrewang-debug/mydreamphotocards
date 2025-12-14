@@ -91,30 +91,39 @@
   </div>
 
   <!-- Colonne droite : photocards filtrées -->
-  <div class="listings-column">
-    {% if listings %}
-      {% for listing in listings %}
-        <div class="listing-card">
-          {% if listing.image %}
-            <img src="{{ listing.image.url }}" alt="{{ listing.titre }}">
+ <div class="listings-column">
+  {% if listings %}
+    {% for listing in listings %}
+      <div class="listing-card">
+
+        {% if listing.image %}
+          <img src="{{ listing.image.url }}" alt="{{ listing.titre }}">
+        {% endif %}
+
+        <div class="listing-info">
+          <h3>{{ listing.titre }}</h3>
+
+          {% if listing.membre %}
+            <p>{{ listing.membre }}</p>
           {% endif %}
-          <div class="listing-info">
-            <h3>{{ listing.titre }}</h3>
-            {% if listing.membre %}
-              <p>{{ listing.membre }}</p>
-            {% endif %}
-            {% if listing.groupe %}
-               <p class="listing-groupe">{{ listing.groupe }}</p>
-             {% endif %}
-           </div>
-          <button class="favorite-btn">♥</button>
+
+          {% if listing.description %}
+            <p class="listing-description">{{ listing.description }}</p>
+          {% endif %}
+
+          {% if listing.groupe %}
+            <p class="listing-groupe">{{ listing.groupe }}</p>
+          {% endif %}
         </div>
-      {% endfor %}
-    {% else %}
-      <p class="empty-message">No photocards for this group yet.</p>
-    {% endif %}
-  </div>
+
+        <button class="favorite-btn">♥</button>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p class="empty-message">No photocards for this group yet.</p>
+  {% endif %}
 </div>
+    
 
 
 <script>
