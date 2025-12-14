@@ -90,12 +90,32 @@
     </ul>
   </div>
 
-  <!-- Colonne droite : photocards filtrées -->
- <div class="listings-column">
+ <!-- Colonne gauche : liste des groupes -->
+<div class="groups-column">
+  <ul class="group-list">
+    <!-- Lien Tous -->
+    <li>
+      <a href="/fr/?groupe=all" class="group-filter {% if not selected_group or selected_group == 'all' %}active{% endif %}">
+        Tous
+      </a>
+    </li>
+
+    <!-- Liens groupes -->
+    {% for group_name in groups %}
+      <li>
+        <a href="/fr/?groupe={{ group_name }}" class="group-filter {% if selected_group == group_name %}active{% endif %}">
+          {{ group_name }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<!-- Colonne droite : photocards filtrées -->
+<div class="listings-column">
   {% if listings %}
     {% for listing in listings %}
       <div class="listing-card">
-
         {% if listing.image %}
           <img src="{{ listing.image.url }}" alt="{{ listing.titre }}">
         {% endif %}
@@ -123,6 +143,7 @@
     <p class="empty-message">Pas de photocards pour ce groupe.</p>
   {% endif %}
 </div>
+    
     
 
 
