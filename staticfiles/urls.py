@@ -13,5 +13,6 @@ urlpatterns = [
     path('about_me/',views.about_me,name='about_me'), #page about me anglais
     path('privacy/', views.privacy_policy, name='privacy_policy'),
     path('contact/', views.contact, name='contact'),
+    path('fr/group/<str:groupe>/', views.listing_list_fr, name='group_listings_fr'),
 
 ]
