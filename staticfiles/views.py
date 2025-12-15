@@ -30,9 +30,10 @@ def listing_list_fr(request):
     if selected_group and selected_group.lower() != "all":
         listings = listings.filter(groupe__iexact=selected_group)
 
-    # Liste des groupes (fixe ou dynamique)
-    groups = sorted(['BOYNEXTDOOR','SEVENTEEN','TXT','ENHYPEN','STRAY KIDS','XDH','AESPA','NCT','CORTIS','TWICE','MEOV','BLACKPINK','THE BOYZ','ZB1','ATEEZ'])
-
+    groups = sorted([g.upper() for g in [
+    'BOYNEXTDOOR','SEVENTEEN','TXT','ENHYPEN','STRAY KIDS','XDH',
+    'AESPA','NCT','CORTIS','TWICE','MEOV','BLACKPINK','THE BOYZ','ZB1','ATEEZ'
+]])
     grouped_listings = OrderedDict()
     for group_name in groups:
         grouped_listings[group_name] = listings.filter(groupe__iexact=group_name)
