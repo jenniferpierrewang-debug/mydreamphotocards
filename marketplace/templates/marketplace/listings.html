@@ -116,6 +116,10 @@
             {% if listing.groupe %}
               <p class="listing-groupe">{{ listing.groupe }}</p>
             {% endif %}
+
+            {% if listing.description %}
+              <p class="listing-description">{{ listing.description }}</p>
+            {% endif %} 
           </div>
 
           <button class="favorite-btn">♥</button>
