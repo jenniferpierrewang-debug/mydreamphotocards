@@ -10,12 +10,17 @@ from .forms import ListingForm, SellingForm
 
 
 # ----------------- LISTINGS -----------------
+from collections import OrderedDict
+from django.db.models import Q
+from .models import Listing, Selling, Feedback
+
 def listing_list_fr(request):
     query = request.GET.get('q', '')
     selected_group = request.GET.get('groupe', '')
 
     listings = Listing.objects.filter(is_approved=True)
 
+    # recherche par texte
     if query:
         listings = listings.filter(
             Q(titre__icontains=query) |
@@ -23,30 +28,39 @@ def listing_list_fr(request):
             Q(membre__icontains=query)
         )
 
+    # filtre par groupe (insensible à la casse)
     if selected_group:
         listings = listings.filter(groupe__iexact=selected_group)
 
-   # normalise tous les noms de groupes pour que majuscule/minuscule ne pose pas problème
-    groups = sorted([
-        'BOYNEXTDOOR','Seventeen','TXT','ENHYPEN','Stray Kids','XDH',
-        'AESPA','NCT','CORTIS','TWICE','MEOV','BLACKPINK','The Boyz','ZB1','ATEEZ'
-    ])
+    # liste des groupes à afficher (casse “normale” pour les boutons)
+    # liste des groupes à afficher (casse normale)
+groups_display = [
+    'Boynextdoor','Seventeen','TXT','ENHYPEN','Stray Kids','XDH',
+    'AESPA','NCT','CORTIS','TWICE','MEOV','BLACKPINK','The Boyz','ZB1','ATEEZ'
+]
 
-    grouped_listings = OrderedDict()
-    for group_name in groups:
-        grouped_listings[group_name] = listings.filter(groupe__iexact=group_name)
+# tri alphabétique
+groups_display = sorted(groups_display, key=lambda x: x.upper())
 
+# pour le filtrage insensible à la casse
+groups_normalized = [g.upper() for g in groups_display]
+
+grouped_listings = OrderedDict()
+for display_name, norm_name in zip(groups_display, groups_normalized):
+    grouped_listings[display_name] = listings.filter(groupe__iexact=norm_name)
+    
     sellings = Selling.objects.filter(is_active=True)
     feedbacks = Feedback.objects.filter(is_approved=True, consent_given=True).order_by('-created_at')
 
     return render(request, 'marketplace/listings.html', {
         'listings': listings,
         'selected_group': selected_group,
-        'groups': groups,
-        'sellings': sellings,
+        'groups': groups_display,
         'grouped_listings': grouped_listings,
+        'sellings': sellings,
         'feedbacks': feedbacks,
     })
+    
 
 
 def listing_list_en(request):
