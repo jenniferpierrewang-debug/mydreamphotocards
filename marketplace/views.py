@@ -27,10 +27,10 @@ def listing_list_fr(request):
         listings = listings.filter(groupe__iexact=selected_group)
 
    # normalise tous les noms de groupes pour que majuscule/minuscule ne pose pas problème
-groups = sorted([g.upper() for g in [
-    'BOYNEXTDOOR','SEVENTEEN','TXT','ENHYPEN','STRAY KIDS','XDH',
-    'AESPA','NCT','CORTIS','TWICE','MEOV','BLACKPINK','THE BOYZ','ZB1','ATEEZ'
-]])
+    groups = sorted([g.upper() for g in [
+        'BOYNEXTDOOR','SEVENTEEN','TXT','ENHYPEN','STRAY KIDS','XDH',
+        'AESPA','NCT','CORTIS','TWICE','MEOV','BLACKPINK','THE BOYZ','ZB1','ATEEZ'
+    ]])
     grouped_listings = OrderedDict()
     for group_name in groups:
         grouped_listings[group_name] = listings.filter(groupe__iexact=group_name)
