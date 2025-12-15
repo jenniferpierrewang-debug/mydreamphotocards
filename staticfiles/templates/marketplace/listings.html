@@ -81,70 +81,45 @@
   <!-- Colonne gauche : liste des groupes -->
   <div class="groups-column">
     <ul class="group-list">
-      <li><a href="#" class="group-filter active" data-group="all">Tous</a></li>
+      <li>
+        <a href="#" class="group-filter active" data-group="all">Tous</a>
+      </li>
+
       {% for group_name in groups %}
         <li>
-          <a href="#" class="group-filter" data-group="{{ group_name }}">{{ group_name }}</a>
+          <a href="#" class="group-filter" data-group="{{ group_name }}">
+            {{ group_name }}
+          </a>
         </li>
       {% endfor %}
     </ul>
   </div>
 
- <!-- Colonne gauche : liste des groupes -->
-<div class="groups-column">
-  <ul class="group-list">
-    <!-- Lien Tous -->
-    <li>
-      <a href="/fr/?groupe=all" class="group-filter {% if not selected_group or selected_group == 'all' %}active{% endif %}">
-        Tous
-      </a>
-    </li>
-
-    <!-- Liens groupes -->
-    {% for group_name in groups %}
-      <li>
-        <a href="/fr/?groupe={{ group_name }}" class="group-filter {% if selected_group == group_name %}active{% endif %}">
-          {{ group_name }}
-        </a>
-      </li>
-    {% endfor %}
-  </ul>
-</div>
-
-<!-- Colonne droite : photocards filtrées -->
-<div class="listings-column">
-  {% if listings %}
-    {% for listing in listings %}
-      <div class="listing-card">
-        {% if listing.image %}
-          <img src="{{ listing.image.url }}" alt="{{ listing.titre }}">
-        {% endif %}
-
-        <div class="listing-info">
-          <h3>{{ listing.titre }}</h3>
-
-          {% if listing.membre %}
-            <p>{{ listing.membre }}</p>
+  <!-- Colonne droite : photocards filtrées -->
+  <div class="listings-column">
+    {% if listings %}
+      {% for listing in listings %}
+        <div class="listing-card">
+          {% if listing.image %}
+            <img src="{{ listing.image.url }}" alt="{{ listing.titre }}">
           {% endif %}
-
-          {% if listing.description %}
-            <p class="listing-description">{{ listing.description }}</p>
-          {% endif %}
-
-          {% if listing.groupe %}
-            <p class="listing-groupe">{{ listing.groupe }}</p>
-          {% endif %}
+          <div class="listing-info">
+            <h3>{{ listing.titre }}</h3>
+            {% if listing.membre %}
+              <p>{{ listing.membre }}</p>
+            {% endif %}
+            {% if listing.groupe %}
+               <p class="listing-groupe">{{ listing.groupe }}</p>
+             {% endif %}
+           </div>
+          <button class="favorite-btn">♥</button>
         </div>
-
-        <button class="favorite-btn">♥</button>
-      </div>
-    {% endfor %}
-  {% else %}
-    <p class="empty-message">Pas de photocards pour ce groupe.</p>
-  {% endif %}
+      {% endfor %}
+    {% else %}
+      <p class="empty-message">No photocards for this group yet.</p>
+    {% endif %}
+  </div>
 </div>
-    
-    
 
 
 <script>
@@ -155,9 +130,8 @@
     filter.addEventListener('click', e => {
       e.preventDefault();
 
-      // retire la classe active de tous
+      // Active state
       filters.forEach(f => f.classList.remove('active'));
-      // ajoute la classe active à celui cliqué
       filter.classList.add('active');
 
       const group = filter.dataset.group;
@@ -172,6 +146,7 @@
     });
   });
 </script>
+
 
 <style>
 .group-list li {
@@ -384,7 +359,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- FAUSSE PHOTOCARD D'ANNONCE AVEC FLÈCHE -->
 <div id="ad-container" class="ad-photocard">
   <div class="ribbon">Annonce 🎀</div>
-  <img id="ad-img" src="/marketplace/static/marketplace/jaebaby.jpeg" alt="BOYNEXTDOOR merch">
+  <img id="ad-img" src="https://res.cloudinary.com/drr3vihyy/image/upload/v1765409105/IMG_9550_c8thvv.jpg", alt="merch">
   <div class="ad-info">
     <p id="ad-text">Découvre les nouveautés <strong>BOYNEXTDOOR</strong> sur Ktown4u 💿</p>
     <a id="ad-link" href="https://www.ktown4u.com/affiliate_link_boynextdoor" target="_blank" class="ad-btn">Shop Now</a>
@@ -397,12 +372,12 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 const ads = [
   {
-    img: "/marketplace/static/marketplace/IMG_9550.JPG",
+    img: "https://res.cloudinary.com/drr3vihyy/image/upload/v1765409105/IMG_9550_c8thvv.jpg",
     text: "Découvre les nouveautés <strong>BOYNEXTDOOR</strong> sur Ktown4u 💿",
     link: "https://www.ktown4u.com/affiliate_link_boynextdoor"
   },
   {
-    img: "/marketplace/static/marketplace/images/NCT.jpeg",
+    img: "dreamPC2/staticfiles/marketplace/NCT.jpeg",
     text: "Découvre les nouveautés <strong>NCT</strong> sur Soundwave 🎶",
     link: "https://en.sound-wave.co.kr"
   },

@@ -65,7 +65,8 @@ def listing_list_en(request):
     if selected_group:
         listings = listings.filter(groupe__iexact=selected_group)
 
-    groups =['BOYNEXTDOOR','SEVENTEEN','TXT','ENHYPEN','STRAY KIDS','XDH','AESPA','NCT','CORTIS','TWICE','MEOV','BLACKPINK','THE BOYZ','ZB1','ATEEZ'])
+    groups =['BOYNEXTDOOR','SEVENTEEN','TXT','ENHYPEN','STRAY KIDS','XDH','AESPA','NCT','CORTIS','TWICE','MEOV','BLACKPINK','THE BOYZ','ZB1','ATEEZ']
+    
 
     
     grouped_listings = OrderedDict()

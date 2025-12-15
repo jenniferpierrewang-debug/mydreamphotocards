@@ -41,7 +41,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-p9pzs((fy66+n+b^b8=wp%-chf9!f^u-wy#g47u1wxvpz#3n--'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'mydreamphotocards.onrender.com',  # ton URL Render
@@ -49,6 +49,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
 
 ]
+
 
 # Application definition
 
