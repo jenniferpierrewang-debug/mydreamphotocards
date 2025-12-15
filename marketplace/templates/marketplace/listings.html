@@ -153,11 +153,10 @@ filters.forEach(filter => {
       // ajoute la classe active à celui cliqué
       filter.classList.add('active');
 
-      const group = filter.dataset.group.toLowerCase(); // normalise en minuscule
+      const group = filter.dataset.group;
 
       cards.forEach(card => {
-        const cardGroup = card.dataset.group.toLowerCase(); // normalise en minuscule
-        if (group === 'all' || cardGroup === group) {
+        if (group === 'all' || card.dataset.group === group) {
           card.style.display = 'block';
         } else {
           card.style.display = 'none';
@@ -166,6 +165,7 @@ filters.forEach(filter => {
     });
   });
 </script>
+    
     
 
 <style>
