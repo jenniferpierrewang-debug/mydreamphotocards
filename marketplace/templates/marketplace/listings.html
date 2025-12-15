@@ -90,40 +90,53 @@
     </ul>
   </div>
 
- <!-- Colonne droite : photocards filtrées -->
-<div class="listings-column">
-  {% if listings %}
-    {% for listing in listings %}
-      <div class="listing-card">
-        {% if listing.image %}
-          <img src="{{ listing.image.url }}" alt="{{ listing.titre }}">
-        {% endif %}
+ <div class="page-container">
+  <!-- Colonne gauche : liste des groupes -->
+  <div class="groups-column">
+    <ul class="group-list">
+      <li>
+        <a href="#" class="group-filter active" data-group="all">Tous</a>
+      </li>
 
-        <div class="listing-info">
-          <h3>{{ listing.titre }}</h3>
+      {% for group_name in groups %}
+        <li>
+          <a href="#" class="group-filter" data-group="{{ group_name }}">
+            {{ group_name }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
 
-          {% if listing.membre %}
-            <p>{{ listing.membre }}</p>
+  <!-- Colonne droite : photocards filtrées -->
+  <div class="listings-column">
+    {% if listings %}
+      {% for listing in listings %}
+        <div class="listing-card" data-group="{{ listing.groupe }}">
+
+          {% if listing.image %}
+            <img src="{{ listing.image.url }}" alt="{{ listing.titre }}">
           {% endif %}
 
-          {% if listing.groupe %}
-            <p class="listing-groupe">{{ listing.groupe }}</p>
-          {% endif %}
+          <div class="listing-info">
+            <h3>{{ listing.titre }}</h3>
 
-          {% if listing.description %}
-            <p class="listing-description">
-              {{ listing.description }}
-            </p>
-          {% endif %}
+            {% if listing.membre %}
+              <p>{{ listing.membre }}</p>
+            {% endif %}
+
+            {% if listing.groupe %}
+              <p class="listing-groupe">{{ listing.groupe }}</p>
+            {% endif %}
+          </div>
+
+          <button class="favorite-btn">♥</button>
         </div>
-
-        <button class="favorite-btn">♥</button>
-      </div>
-    {% endfor %}
-  {% else %}
-    <p class="empty-message">No photocards for this group yet.</p>
-  {% endif %}
-</div>
+      {% endfor %}
+    {% else %}
+      <p class="empty-message">Pas de photocards pour ce groupe.</p>
+    {% endif %}
+  </div>
 </div>
 
 
