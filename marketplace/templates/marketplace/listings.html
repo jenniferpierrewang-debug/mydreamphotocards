@@ -75,17 +75,7 @@
   <button class="tab-link" onclick="openTab(event, 'selling')">Selling</button>
 </div>
 
-<!-- Colonne gauche : liste des groupes -->
-<div class="groups-column">
-  <ul class="group-list">
-    <li><a href="#" class="group-filter active" data-group="all">Tous</a></li>
-    {% for group_name in groups %}
-      <li>
-        <a href="#" class="group-filter" data-group="{{ group_name }}">{{ group_name }}</a>
-      </li>
-    {% endfor %}
-  </ul>
-</div>
+
     
 
  <div class="page-container">
