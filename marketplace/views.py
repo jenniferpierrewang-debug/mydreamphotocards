@@ -35,8 +35,8 @@ def listing_list_fr(request):
     # liste des groupes à afficher (casse “normale” pour les boutons)
     # liste des groupes à afficher (casse normale)
     groups_display = [
-        'Boynextdoor','Seventeen','TXT','ENHYPEN','Stray Kids','XDH',
-        'AESPA','NCT','CORTIS','TWICE','MEOV','BLACKPINK','The Boyz','ZB1','ATEEZ'
+        'BOYNEXTDOOR','SEVENTEEN','TXT','ENHYPEN','STRAY KIDS','XDH',
+        'AESPA','NCT','CORTIS','TWICE','MEOV','BLACKPINK','THE BOYZ','ZB1','ATEEZ'
     ]
 
     # tri alphabétique
