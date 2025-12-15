@@ -34,20 +34,20 @@ def listing_list_fr(request):
 
     # liste des groupes à afficher (casse “normale” pour les boutons)
     # liste des groupes à afficher (casse normale)
-groups_display = [
-    'Boynextdoor','Seventeen','TXT','ENHYPEN','Stray Kids','XDH',
-    'AESPA','NCT','CORTIS','TWICE','MEOV','BLACKPINK','The Boyz','ZB1','ATEEZ'
-]
+    groups_display = [
+        'Boynextdoor','Seventeen','TXT','ENHYPEN','Stray Kids','XDH',
+        'AESPA','NCT','CORTIS','TWICE','MEOV','BLACKPINK','The Boyz','ZB1','ATEEZ'
+    ]
 
-# tri alphabétique
-groups_display = sorted(groups_display, key=lambda x: x.upper())
+    # tri alphabétique
+    groups_display = sorted(groups_display, key=lambda x: x.upper())
 
-# pour le filtrage insensible à la casse
-groups_normalized = [g.upper() for g in groups_display]
+    # pour le filtrage insensible à la casse
+    groups_normalized = [g.upper() for g in groups_display]
 
-grouped_listings = OrderedDict()
-for display_name, norm_name in zip(groups_display, groups_normalized):
-    grouped_listings[display_name] = listings.filter(groupe__iexact=norm_name)
+    grouped_listings = OrderedDict()
+    for display_name, norm_name in zip(groups_display, groups_normalized):
+        grouped_listings[display_name] = listings.filter(groupe__iexact=norm_name)
     
     sellings = Selling.objects.filter(is_active=True)
     feedbacks = Feedback.objects.filter(is_approved=True, consent_given=True).order_by('-created_at')
