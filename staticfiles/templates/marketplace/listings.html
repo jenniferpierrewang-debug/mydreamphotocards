@@ -87,7 +87,7 @@
 
       {% for group_name in groups %}
         <li>
-          <a href="#" class="group-filter" data-group="{{ group_name }}">
+          <a href="#" class="group-filter" data-group="{{ group_name|upper }}">{{ group_name }}</a>
             {{ group_name }}
           </a>
         </li>
@@ -99,7 +99,7 @@
   <div class="listings-column">
     {% if listings %}
       {% for listing in listings %}
-        <div class="listing-card">
+         <div class="listing-card" data-group="{{ listing.groupe|upper }}">
           {% if listing.image %}
             <img src="{{ listing.image.url }}" alt="{{ listing.titre }}">
           {% endif %}
