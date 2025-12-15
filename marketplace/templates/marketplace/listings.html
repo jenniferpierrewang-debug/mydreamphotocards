@@ -138,19 +138,35 @@ filters.forEach(filter => {
     filters.forEach(f => f.classList.remove('active'));
     filter.classList.add('active');
 
-    const group = filter.dataset.group;
+    <!-- ... ton HTML pour les groupes et les photocards ... -->
 
-    cards.forEach(card => {
-      if (group === 'all' || card.dataset.group === group) {
-        card.style.display = 'block';
-      } else {
-        card.style.display = 'none';
-      }
+<script>
+  const filters = document.querySelectorAll('.group-filter');
+  const cards = document.querySelectorAll('.listing-card');
+
+  filters.forEach(filter => {
+    filter.addEventListener('click', e => {
+      e.preventDefault();
+
+      // retire la classe active de tous
+      filters.forEach(f => f.classList.remove('active'));
+      // ajoute la classe active à celui cliqué
+      filter.classList.add('active');
+
+      const group = filter.dataset.group.toLowerCase(); // normalise en minuscule
+
+      cards.forEach(card => {
+        const cardGroup = card.dataset.group.toLowerCase(); // normalise en minuscule
+        if (group === 'all' || cardGroup === group) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
     });
   });
-});
 </script>
-      
+    
 
 <style>
 .group-list li {
