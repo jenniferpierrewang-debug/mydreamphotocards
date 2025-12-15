@@ -445,6 +445,12 @@ button:hover {
   line-height: 1.4;
 }
 
+.listing-description {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 6px;
+  line-height: 1.4;
+}
 
 .submit-btn {
   background-color: #340945;
