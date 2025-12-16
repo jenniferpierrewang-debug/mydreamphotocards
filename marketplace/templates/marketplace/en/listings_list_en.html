@@ -77,7 +77,7 @@
 
 
 
-<div class="page-container">
+ <div class="page-container">
 
   <!-- Colonne gauche : liste des groupes -->
   <div class="groups-column">
@@ -91,50 +91,64 @@
     </ul>
   </div>
 
-
 <div class="listings-column">
-  {% for group_name in groups %}
-    <div class="group-cards" data-group="{{ group_name|upper }}">
-      <p class="empty-message" style="display:none;">Pas de photocards pour ce groupe.</p>
+    {% if listings %}
       {% for listing in listings %}
-        {% if listing.groupe|upper == group_name|upper %}
-          <div class="listing-card" data-group="{{ listing.groupe|upper }}">
-            <!-- contenu de la photocard -->
+        <div class="listing-card" data-group="{{ listing.groupe|upper }}">
+          {% if listing.image %}
+            <img src="{{ listing.image.url }}" alt="{{ listing.titre }}">
+          {% endif %}
+
+          <div class="listing-info">
+            <h3>{{ listing.titre }}</h3>
+            {% if listing.membre %}
+              <p>{{ listing.membre }}</p>
+            {% endif %}
+            
+            {% if listing.groupe %}
+              <p class="listing-groupe">{{ listing.groupe }}</p>
+            {% endif %}
+            {% if listing.description %}
+              <p class="listing-description">{{ listing.description }}</p>
+            {% endif %}  
           </div>
-        {% endif %}
+
+          <button class="favorite-btn">♥</button>
+        </div>
       {% endfor %}
-    </div>
-  {% endfor %}
-</div>
+    {% else %}
+      <p class="empty-message">Pas de photocards pour ce groupe.</p>
+    {% endif %}
+  </div>
+ </div>
 
-<script>
-const filters = document.querySelectorAll('.group-filter');
+     
+     
+ <script>
+  const filters = document.querySelectorAll('.group-filter');
+  const cards = document.querySelectorAll('.listing-card');
 
-filters.forEach(filter => {
-  filter.addEventListener('click', e => {
-    e.preventDefault();
+  filters.forEach(filter => {
+    filter.addEventListener('click', e => {
+      e.preventDefault();
 
-    const group = filter.dataset.group;
+      // retire la classe active de tous
+      filters.forEach(f => f.classList.remove('active'));
+      // ajoute la classe active à celui cliqué
+      filter.classList.add('active');
 
-    const allCards = document.querySelectorAll('.listing-card');
-    let anyVisible = false;
+      const group = filter.dataset.group;
 
-    allCards.forEach(card => {
-      if (group === 'all' || card.dataset.group === group) {
-        card.style.display = 'block';
-        anyVisible = true;
-      } else {
-        card.style.display = 'none';
-      }
+      cards.forEach(card => {
+        if (group === 'all' || card.dataset.group === group) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
     });
-
-    const emptyMsg = document.querySelector(`.group-cards[data-group="${group}"] .empty-message`);
-    if(emptyMsg){
-      emptyMsg.style.display = anyVisible ? 'none' : 'block';
-    }
   });
-});
-</script>
+ </script>
     
     
 
