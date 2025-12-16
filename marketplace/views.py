@@ -36,7 +36,7 @@ def listing_list_fr(request):
     # liste des groupes à afficher (casse normale)
     groups_display = [
         'BOYNEXTDOOR','SEVENTEEN','TXT','ENHYPEN','STRAY KIDS','XDH',
-        'AESPA','NCT','CORTIS','TWICE','MEOV','BLACKPINK','THE BOYZ','ZB1','ATEEZ'
+        'AESPA','NCT','CORTIS','TWICE','MEOV','BLACKPINK','THE BOYZ','ZB1','ATEEZ','TREASURE'
     ]
 
     # tri alphabétique
@@ -69,6 +69,7 @@ def listing_list_en(request):
 
     listings = Listing.objects.filter(is_approved=True)
 
+    # recherche par texte
     if query:
         listings = listings.filter(
             Q(titre__icontains=query) |
@@ -76,26 +77,39 @@ def listing_list_en(request):
             Q(membre__icontains=query)
         )
 
+    # filtre par groupe (insensible à la casse)
     if selected_group:
         listings = listings.filter(groupe__iexact=selected_group)
 
-    groups =['BOYNEXTDOOR','SEVENTEEN','TXT','ENHYPEN','STRAY KIDS','XDH','AESPA']
-    
-    grouped_listings = OrderedDict()
-    for group_name in groups:
-        grouped_listings[group_name] = listings.filter(groupe__iexact=group_name)
+    # liste des groupes à afficher (casse “normale” pour les boutons)
+    # liste des groupes à afficher (casse normale)
+    groups_display = [
+        'BOYNEXTDOOR','SEVENTEEN','TXT','ENHYPEN','STRAY KIDS','XDH',
+        'AESPA','NCT','CORTIS','TWICE','MEOV','BLACKPINK','THE BOYZ','ZB1','ATEEZ','TREASURE'
+    ]
 
+    # tri alphabétique
+    groups_display = sorted(groups_display, key=lambda x: x.upper())
+
+    # pour le filtrage insensible à la casse
+    groups_normalized = [g.upper() for g in groups_display]
+
+    grouped_listings = OrderedDict()
+    for display_name, norm_name in zip(groups_display, groups_normalized):
+        grouped_listings[display_name] = listings.filter(groupe__iexact=norm_name)
+    
     sellings = Selling.objects.filter(is_active=True)
     feedbacks = Feedback.objects.filter(is_approved=True, consent_given=True).order_by('-created_at')
 
-    return render(request, 'marketplace/en/listings_list_en.html', {
+    return render(request, 'marketplace/listings.html', {
         'listings': listings,
         'selected_group': selected_group,
-        'groups': groups,
-        'sellings': sellings,
+        'groups': groups_display,
         'grouped_listings': grouped_listings,
+        'sellings': sellings,
         'feedbacks': feedbacks,
     })
+    
 
 
 
