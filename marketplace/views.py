@@ -101,7 +101,7 @@ def listing_list_en(request):
     sellings = Selling.objects.filter(is_active=True)
     feedbacks = Feedback.objects.filter(is_approved=True, consent_given=True).order_by('-created_at')
 
-    return render(request, 'marketplace/listings.html', {
+    return render(request, 'marketplace/en/listings_list_en.html', {
         'listings': listings,
         'selected_group': selected_group,
         'groups': groups_display,
