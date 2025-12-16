@@ -92,42 +92,46 @@
     </ul>
   </div>
 
-  <!-- Colonne droite : photocards filtrées -->
-  <div class="listings-column">
-    {% if listings %}
-      {% for listing in listings %}
-        <div class="listing-card" data-group="{{ listing.groupe|upper }}">
-          {% if listing.image %}
-            <img src="{{ listing.image.url }}" alt="{{ listing.titre }}">
-          {% endif %}
+ <div class="listings-column">
+  {% for group_name in groups %}
+    <div class="group-cards" data-group="{{ group_name|upper }}">
+      {% with group_listings=grouped_listings[group_name] %}
+        {% if group_listings %}
+          {% for listing in group_listings %}
+            <div class="listing-card" data-group="{{ listing.groupe|upper }}">
+              {% if listing.image %}
+                <img src="{{ listing.image.url }}" alt="{{ listing.titre }}">
+              {% endif %}
 
-          <div class="listing-info">
-            <h3>{{ listing.titre }}</h3>
-            {% if listing.membre %}
-              <p>{{ listing.membre }}</p>
-            {% endif %}
-            
-            {% if listing.groupe %}
-              <p class="listing-groupe">{{ listing.groupe }}</p>
-            {% endif %}
-            {% if listing.description %}
-              <p class="listing-description">{{ listing.description }}</p>
-            {% endif %}  
-          </div>
+              <div class="listing-info">
+                <h3>{{ listing.titre }}</h3>
+                {% if listing.membre %}
+                  <p>{{ listing.membre }}</p>
+                {% endif %}
+                {% if listing.description %}
+                  <p class="listing-description">{{ listing.description }}</p>
+                {% endif %}
+                {% if listing.groupe %}
+                  <p class="listing-groupe">{{ listing.groupe }}</p>
+                {% endif %}
+              </div>
 
-          <button class="favorite-btn">♥</button>
-        </div>
-      {% endfor %}
-    {% else %}
-      <p class="empty-message">Pas de photocards pour ce groupe.</p>
-    {% endif %}
-  </div>
+              <button class="favorite-btn">♥</button>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p class="empty-message">Pas de photocards pour ce groupe.</p>
+        {% endif %}
+      {% endwith %}
+    </div>
+  {% endfor %}
 </div>
+     
     
     
 <script>
   const filters = document.querySelectorAll('.group-filter');
-  const cards = document.querySelectorAll('.listing-card');
+  const groupContainers = document.querySelectorAll('.group-cards');
 
   filters.forEach(filter => {
     filter.addEventListener('click', e => {
@@ -140,16 +144,18 @@
 
       const group = filter.dataset.group;
 
-      cards.forEach(card => {
-        if (group === 'all' || card.dataset.group === group) {
-          card.style.display = 'block';
+      groupContainers.forEach(container => {
+        if (group === 'all' || container.dataset.group === group) {
+          container.style.display = 'block';
         } else {
-          card.style.display = 'none';
+          container.style.display = 'none';
         }
       });
     });
   });
 </script>
+     
+     
     
     
 
